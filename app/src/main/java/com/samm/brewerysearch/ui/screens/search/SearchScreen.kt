@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +32,7 @@ fun SearchAppBar(navController: NavController){
             TopAppBar(
                 modifier = Modifier
                     .height(55.dp)
-                    .fillMaxWidth(),
+                    .fillMaxSize(),
 
                 title = {
                     Text(
@@ -93,7 +93,7 @@ fun SearchContent(navController: NavController){
 
                 }
             ) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = "")
+                Icon(imageVector = Icons.Filled.Send, contentDescription = "")
             }
 
         }

@@ -1,7 +1,7 @@
 package com.samm.brewerysearch.ui.screens.main
 
 import androidx.lifecycle.ViewModel
-import com.samm.brewerysearch.data.BrewData
+import com.samm.brewerysearch.data.models.BrewData
 import com.samm.brewerysearch.data.DataOrException
 import com.samm.brewerysearch.domain.repository.BrewRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

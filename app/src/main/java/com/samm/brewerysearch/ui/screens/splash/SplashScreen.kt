@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -56,7 +57,7 @@ fun SplashScreen(navController: NavController){
 
     Surface(
         modifier = Modifier
-            .padding(15.dp)
+            .padding(35.dp)
             .size(330.dp)
             .scale(scale.value)
             .fillMaxSize(),
@@ -75,7 +76,7 @@ fun SplashScreen(navController: NavController){
                 painter = painterResource(id = R.drawable.ic_baseline_sports_bar_24),
                 contentDescription = "Beer",
                 contentScale = ContentScale.Fit,
-                modifier = Modifier.size(95.dp)
+                modifier = Modifier.size(105.dp)
             )
 
             Text (

@@ -1,4 +1,4 @@
-package com.samm.brewerysearch.data
+package com.samm.brewerysearch.data.models
 
 
 data class BrewData (
@@ -16,7 +16,7 @@ data class BrewData (
     val longitude: String,
     val latitude: String,
     val phone: String,
-    val website_url: String,
+    val website_url: String?,
     val updated_at: String,
     val created_at: String
 )
