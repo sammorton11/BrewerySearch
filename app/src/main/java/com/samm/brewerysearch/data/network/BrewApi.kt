@@ -1,6 +1,6 @@
 package com.samm.brewerysearch.data.network
 
-import com.samm.brewerysearch.data.BrewData
+import com.samm.brewerysearch.data.models.BrewData
 import retrofit2.http.GET
 import retrofit2.http.Query
 
