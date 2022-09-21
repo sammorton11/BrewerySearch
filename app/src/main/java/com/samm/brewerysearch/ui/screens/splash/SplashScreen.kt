@@ -5,6 +5,7 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
@@ -19,6 +20,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -62,14 +64,16 @@ fun SplashScreen(navController: NavController){
             .scale(scale.value)
             .fillMaxSize(),
         shape = CircleShape,
-        color = DeepOrange200,
-        border = BorderStroke(width = 2.dp, color = Color.LightGray),
+        color = colorResource(id = R.color.pink),
+        border = BorderStroke(width = 2.dp, color = colorResource(id = R.color.light_purple)),
 
     ){
         Column (
-            modifier = Modifier.padding(1.dp),
+            modifier = Modifier
+                .padding(1.dp)
+                .background(colorResource(id = R.color.grey_blue)),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
 
             Image (
