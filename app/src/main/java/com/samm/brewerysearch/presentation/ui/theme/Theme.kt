@@ -1,4 +1,4 @@
-package com.samm.brewerysearch.ui.theme
+package com.samm.brewerysearch.presentation.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
