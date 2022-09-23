@@ -1,4 +1,4 @@
-package com.samm.brewerysearch.ui.screens.main
+package com.samm.brewerysearch.presentation.screens.main
 
 import android.content.Context
 import android.content.Intent
@@ -6,8 +6,8 @@ import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
-import com.samm.brewerysearch.data.models.BrewData
 import com.samm.brewerysearch.data.DataOrException
+import com.samm.brewerysearch.data.models.BrewData
 import com.samm.brewerysearch.domain.repository.BrewRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
@@ -46,4 +46,5 @@ class MainViewModel @Inject constructor(private val repository: BrewRepository):
         )
         context.startActivity(urlIntent)
     }
+
 }

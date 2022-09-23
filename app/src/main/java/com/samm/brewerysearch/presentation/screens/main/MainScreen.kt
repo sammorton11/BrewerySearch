@@ -1,4 +1,4 @@
-package com.samm.brewerysearch.ui.screens.main
+package com.samm.brewerysearch.presentation.screens.main
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -25,32 +25,32 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.samm.brewerysearch.R
 import com.samm.brewerysearch.data.DataOrException
 import com.samm.brewerysearch.data.models.BrewData
-import com.samm.brewerysearch.ui.navigation.Screens
+import com.samm.brewerysearch.presentation.navigation.Screens
 
 
-// TODO: Better Colors!
-
+/*
+    TODO:
+*/
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen(
     navController: NavController,
-    mainViewModel: MainViewModel = hiltViewModel(),
-    search: String?)
-{
+    mainViewModel: MainViewModel,
+    search: String?
+) {
     val apiData = brewData(mainViewModel = mainViewModel, search = search)
 
     Scaffold(
-
         content = {
 
             if (apiData.loading == true){
@@ -67,9 +67,7 @@ fun MainScreen(
             } else if (apiData.data != null){
                 MainContent(bData = apiData.data!!, viewModel = mainViewModel)
             }
-
         },
-
         topBar = { BrewTopBar(navController, search) }
     )
 }
@@ -78,27 +76,19 @@ fun MainScreen(
 
 @Composable
 fun BrewTopBar(navController: NavController, search: String?) {
-
    TopAppBar(
-
        modifier = Modifier
            .height(55.dp)
            .fillMaxWidth(),
         title = {
             Text(
                 stringResource(id = R.string.main_title),
-                style = TextStyle(
-                    // Todo: make a cool text style
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                ),
+                style = MaterialTheme.typography.h5,
                 maxLines = 1
             )
         },
         actions = {
-
             Text(text = "$search")
-
             IconButton(onClick = { navController.navigate(Screens.SearchScreen.name) }) {
                 Icon(
                     modifier = Modifier.padding(10.dp),
@@ -112,40 +102,26 @@ fun BrewTopBar(navController: NavController, search: String?) {
 }
 
 
-//Gets data from view model
-@Composable
-fun brewData(
-    mainViewModel: MainViewModel, search: String?
-): DataOrException<List<BrewData>, Boolean, Exception> {
-
-    return produceState<DataOrException<List<BrewData>, Boolean, Exception>>(
-        initialValue = DataOrException(loading = true)
-    ) {
-        value = mainViewModel.getData(search)
-    }.value
-}
-
-
-
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainContent(bData: List<BrewData>, viewModel: MainViewModel){
 
     val allBreweries = bData.size
 
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(id = R.color.grey_blue))
     ){
+        Row {
+            // Amount text label
+            Text(
+                text = "Result(s): ${bData.size}",
+                modifier = Modifier.padding(top = 15.dp, start = 15.dp, bottom = 5.dp)
+            )
+        }
 
-        // Amount text label
-        Text(
-            text = "Result(s): ${bData.size}",
-            modifier = Modifier.padding(top = 15.dp, start = 15.dp, bottom = 5.dp)
-        )
-
+        // List of Brewery cards
         LazyColumn(
             Modifier
                 .fillMaxSize()
@@ -162,8 +138,6 @@ fun MainContent(bData: List<BrewData>, viewModel: MainViewModel){
     }
 }
 
-
-
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Breweries(
@@ -171,11 +145,6 @@ fun Breweries(
     position: Int,
     viewModel: MainViewModel
 ){
-
-    val context = LocalContext.current
-
-
-
 
     val cardNumber = position+1
     val cityApiData = bData[position].city
@@ -188,9 +157,11 @@ fun Breweries(
     val streetApiData = bData[position].street
     val apiLastUpdated = bData[position].updated_at
 
+    val context = LocalContext.current
     val lastUpdated = apiLastUpdated?.let { viewModel.dateTextConverter(it) }
     val websiteUrlApiData = bData[position].website_url
     var expanded by remember { mutableStateOf(false) }
+
 
     val clickableWebsiteText = buildAnnotatedString {
         if (websiteUrlApiData != null) {
@@ -209,153 +180,172 @@ fun Breweries(
 
         //Brewery Card
         Card(
-            backgroundColor = colorResource(id = R.color.light_blue),
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = Modifier.padding(start = 15.dp, end = 15.dp)
+               // .fillMaxSize()
                 .clickable(
                     enabled = true,
-                    onClickLabel = "",
+                    onClickLabel = "Expand to view details",
                     onClick = { expanded = !expanded }
                 ),
-
+            backgroundColor = colorResource(id = R.color.light_blue),
             contentColor = Color.Black,
             border = BorderStroke(0.5.dp, colorResource(id = R.color.pink)),
             elevation = 15.dp
 
         ) {
-            Column(
-                Modifier
-                    .padding(5.dp)
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center
-            ) {
+
+            Column(verticalArrangement = Arrangement.Center) {
 
                 //Number text for position of card
                 Text(
                     text = cardNumber.toString(),
+                    modifier = Modifier.padding(15.dp),
                     fontSize = 10.sp,
-                    modifier = Modifier.align(Alignment.Start)
                 )
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxSize()
-                ) {
+                // Second Row
+                BreweryTitle(bData = bData, position = position)
 
-                    // Name of Brewery
-                    Text(
-                        text = bData[position].name!!,
-                        modifier = Modifier.padding(top = 25.dp),
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 1,
-                        softWrap = true,
-                        style = TextStyle(
-                            color = colorResource(id = R.color.light_purple),
-                            fontSize = 15.sp,
-                            fontFamily = FontFamily.SansSerif,
-                            letterSpacing = 1.sp,
-                           // textAlign = TextAlign.Center,
-//                            shadow = Shadow(
-//                                color = Color.Gray,
-//                                offset = Offset(8f, 8f),
-//                                blurRadius = 15f
-//                            ),
-                            fontStyle = FontStyle.Normal,
+                // Third Row
+                // Brewery Details
+                CardDetails(
+                    cityApiData = cityApiData,
+                    stateApiData = stateApiData,
+                    streetApiData = streetApiData,
+                    countryApiData = countryApiData,
+                    countyApiData = countyApiData,
+                    postalCodeApiData = postalCodeApiData,
+                    breweryTypeApiData = breweryTypeApiData,
+                    lastUpdated = lastUpdated,
+                    expanded = expanded
+                )
 
-                        )
+                //Fourth Row
+                Row(horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ){
 
-                    )
+                    Column(
+                        modifier = Modifier.padding(
+                            start = 10.dp, end = 10.dp,
+                            top = 15.dp, bottom = 15.dp
+                        ),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
 
-                }
-
-                //Brewery Details
-                Column(
-                    modifier = Modifier.padding(10.dp),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    if (expanded){
-
-                        Spacer(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
-                        Text(text = "City:  $cityApiData")
-                        Text(text = "State:  $stateApiData")
-                        Text(text = "Street:  $streetApiData")
-                        Text(text = "Phone:  $phoneNumberApiData")
+                        //Phone Number Link
                         LinkBuilder(
                             clickablePhoneNumberText,
                             phoneNumberApiData,
+                            modifier = Modifier.padding(bottom = 10.dp)
                         ) {
                             if (phoneNumberApiData != null) {
                                 viewModel.callNumber(phoneNumberApiData, context)
                             }
                         }
-                        Text(text = "Country:  $countryApiData")
-                        Text(text = "County:  $countyApiData")
-                        Text(text = "Postal Code:  $postalCodeApiData")
-                        Spacer(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
-                        Text(text = "Type:  $breweryTypeApiData")
-                        Text(text = "Last updated:  $lastUpdated")
-                        Spacer(modifier = Modifier.padding(bottom = 10.dp))
-                    }
-                }
-
-
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-
-                    LinkBuilder(
-                        clickableWebsiteText,
-                        websiteUrlApiData ,
-                        intentCall = {
-                            if (websiteUrlApiData != null) {
-                                viewModel.openWebsite(websiteUrlApiData, context)
+                        //Website Link
+                        LinkBuilder(
+                            clickableWebsiteText,
+                            websiteUrlApiData,
+                            modifier = Modifier.padding(bottom = 15.dp),
+                            intentCall = {
+                                if (websiteUrlApiData != null) {
+                                    viewModel.openWebsite(websiteUrlApiData, context)
+                                }
                             }
-                        }
-                    )
-
+                        )
+                    }
                 }
             }
         }
     }
 }
 
-
-//@Composable
-//fun PhoneNumberLink(clickablePhoneNumberText: AnnotatedString, phoneNumber: String?, viewModel: MainViewModel, context: Context){
-//    if (phoneNumber != null){
-//        ClickableText(
-//            text = clickablePhoneNumberText,
-//            modifier = Modifier
-//                .padding(bottom = 15.dp),
-//            style = TextStyle(
-//                textDecoration = TextDecoration.Underline
-//            ),
-//            onClick = {
-//                viewModel.callNumber(phoneNumber, context)
-//            }
-//        )
-//    }
-//    else {
-//        Text(
-//            text = "Sorry, Not Available",
-//            color = Color.Gray,
-//            fontSize = 10.sp
-//        )
-//    }
-//}
-
+@Composable
+fun CardDetails(
+    cityApiData: String?,
+    stateApiData: String?,
+    streetApiData: String?,
+    countryApiData: String?,
+    countyApiData: String?,
+    postalCodeApiData: String?,
+    breweryTypeApiData: String?,
+    lastUpdated: String?,
+    expanded: Boolean
+){
+    // Third Row
+    //Brewery Details
+    Column(
+        modifier = Modifier.padding(
+            start = 10.dp, end = 10.dp, top = 15.dp, bottom = 15.dp
+        ),
+        verticalArrangement = Arrangement.Center
+    ) {
+        if (expanded) {
+            Text(text = "City:  $cityApiData")
+            Text(text = "State:  $stateApiData")
+            Text(text = "Street:  $streetApiData")
+            Text(text = "Country:  $countryApiData")
+            Text(text = "County:  $countyApiData")
+            Text(text = "Postal Code:  $postalCodeApiData")
+            Text(text = "Type:  $breweryTypeApiData")
+            Text(text = "Last updated:  $lastUpdated")
+        }
+    }
+}
 
 @Composable
-fun LinkBuilder(clickableText: AnnotatedString, dataText: String?, intentCall: (String?) -> Unit){
+fun BreweryTitle(bData: List<BrewData>, position: Int){
+    // Second Row
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+        ) {
+
+            // Name of Brewery
+            Text(
+                text = bData[position].name!!,
+                modifier = Modifier
+                    .padding(start = 15.dp, end = 15.dp),
+                fontWeight = FontWeight.Bold,
+                maxLines = 3,
+                textAlign = TextAlign.Center,
+                softWrap = true,
+                style = TextStyle(
+                    color = colorResource(id = R.color.purple_500),
+                    fontStyle = FontStyle.Normal,
+                    fontSize = 17.sp,
+                    fontFamily = FontFamily.SansSerif,
+                    letterSpacing = 2.sp,
+                )
+
+            )
+        }
+    }
+
+}
+
+@Composable
+fun LinkBuilder(
+    clickableText: AnnotatedString,
+    dataText: String?,
+    modifier: Modifier,
+    intentCall: (String?) -> Unit
+){
     if (dataText != null){
         ClickableText(
             text = clickableText,
-            modifier = Modifier
-                .padding(bottom = 15.dp),
+            modifier = modifier,
             style = TextStyle(
-                textDecoration = TextDecoration.Underline
+                textDecoration = TextDecoration.Underline,
+                letterSpacing = 2.sp
             ),
             onClick = {
                 intentCall(dataText)
@@ -370,3 +360,17 @@ fun LinkBuilder(clickableText: AnnotatedString, dataText: String?, intentCall: (
         )
     }
 }
+
+//Gets data from view model
+@Composable
+fun brewData(
+    mainViewModel: MainViewModel, search: String?
+): DataOrException<List<BrewData>, Boolean, Exception> {
+
+    return produceState<DataOrException<List<BrewData>, Boolean, Exception>>(
+        initialValue = DataOrException(loading = true)
+    ) {
+        value = mainViewModel.getData(search)
+    }.value
+}
+

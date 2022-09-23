@@ -1,4 +1,4 @@
-package com.samm.brewerysearch.ui.navigation
+package com.samm.brewerysearch.presentation.navigation
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -9,16 +9,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.samm.brewerysearch.ui.screens.main.MainScreen
-import com.samm.brewerysearch.ui.screens.main.MainViewModel
-import com.samm.brewerysearch.ui.screens.search.SearchScreen
-import com.samm.brewerysearch.ui.screens.splash.SplashScreen
+import com.samm.brewerysearch.presentation.screens.main.MainScreen
+import com.samm.brewerysearch.presentation.screens.main.MainViewModel
+import com.samm.brewerysearch.presentation.screens.search.SearchScreen
+import com.samm.brewerysearch.presentation.screens.splash.SplashScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ScreenNavigation() {
 
     val navController = rememberNavController()
+    val mainViewModel = hiltViewModel<MainViewModel>()
 
     NavHost(navController, startDestination = Screens.SplashScreen.name) {
 
@@ -27,8 +28,8 @@ fun ScreenNavigation() {
             listOf(navArgument("city"){type = NavType.StringType})
         ) { navBack ->
             navBack.arguments?.getString("city").let{ city ->
-                val viewModel = hiltViewModel<MainViewModel>()
-                MainScreen(navController, viewModel, city)
+
+                MainScreen(navController, mainViewModel, city)
             }
 
         }

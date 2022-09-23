@@ -14,8 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.samm.brewerysearch.ui.navigation.ScreenNavigation
-import com.samm.brewerysearch.ui.theme.BloombergTheme
+import com.samm.brewerysearch.presentation.navigation.ScreenNavigation
+import com.samm.brewerysearch.presentation.ui.theme.BloombergTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 

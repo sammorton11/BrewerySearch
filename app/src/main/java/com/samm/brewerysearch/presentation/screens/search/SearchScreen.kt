@@ -1,4 +1,4 @@
-package com.samm.brewerysearch.ui.screens.search
+package com.samm.brewerysearch.presentation.screens.search
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -7,7 +7,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.samm.brewerysearch.R
-import com.samm.brewerysearch.ui.navigation.Screens
+import com.samm.brewerysearch.presentation.navigation.Screens
 import com.samm.brewerysearch.util.Constants
 
 
