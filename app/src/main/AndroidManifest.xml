@@ -13,18 +13,25 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Bloomberg"
+        android:theme="@style/Theme.BreweryTheme"
         tools:targetApi="31">
+        <uses-library android:name="android.test.runner"
+            android:required="false" />
+        <uses-library android:name="android.test.base"
+            android:required="false" />
+        <uses-library android:name="android.test.mock"
+            android:required="false" />
         <activity
-            android:name="com.samm.brewerysearch.MainActivity"
+            android:name="com.samm.brewerysearch.activity.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Bloomberg">
+            android:theme="@style/Theme.BreweryTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

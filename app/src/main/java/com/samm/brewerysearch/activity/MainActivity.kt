@@ -1,4 +1,4 @@
-package com.samm.brewerysearch
+package com.samm.brewerysearch.activity
 
 import android.os.Build
 import android.os.Bundle
@@ -14,8 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.samm.brewerysearch.R
 import com.samm.brewerysearch.presentation.navigation.ScreenNavigation
-import com.samm.brewerysearch.presentation.ui.theme.BloombergTheme
+import com.samm.brewerysearch.presentation.ui.theme.BreweryTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -36,7 +37,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BloombergTheme {
+            BreweryTheme {
                 Surface(
                     modifier = Modifier
                         .fillMaxSize(),
@@ -54,7 +55,7 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    BloombergTheme {
+    BreweryTheme {
         ScreenNavigation()
     }
 }
