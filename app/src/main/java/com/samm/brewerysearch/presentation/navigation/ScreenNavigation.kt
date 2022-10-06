@@ -24,14 +24,12 @@ fun ScreenNavigation() {
     NavHost(navController, startDestination = Screens.SplashScreen.name) {
 
         val route = Screens.MainScreen.name
-        composable("$route/{city}",
-            listOf(navArgument("city"){type = NavType.StringType})
+        composable("$route/{search}",
+            listOf(navArgument("search"){type = NavType.StringType})
         ) { navBack ->
-            navBack.arguments?.getString("city").let{ city ->
-
-                MainScreen(navController, mainViewModel, city)
+            navBack.arguments?.getString("search").let{ search ->
+                MainScreen(navController, mainViewModel, search)
             }
-
         }
 
         composable(Screens.SearchScreen.name) {

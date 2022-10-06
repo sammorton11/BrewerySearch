@@ -1,19 +1,22 @@
-package com.samm.brewerysearch.domain.di
+package com.samm.brewerysearch.di
 
 import com.samm.brewerysearch.data.network.BrewApi
-import com.samm.brewerysearch.domain.repository.BrewRepository
+import com.samm.brewerysearch.domain.di.AppModule
 import com.samm.brewerysearch.util.Constants
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
-object AppModule {
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [AppModule::class]
+)
+object TestAppModule {
 
     @Singleton
     @Provides

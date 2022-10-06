@@ -23,9 +23,7 @@ import com.samm.brewerysearch.util.Constants
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SearchScreen(navController: NavController){
-
     SearchScreenTopAppBar(navController = navController)
-
 }
 
 
@@ -34,15 +32,11 @@ fun SearchScreen(navController: NavController){
 fun SearchScreenTopAppBar(navController: NavController){
 
     Scaffold(
-
         topBar = {
-
             TopAppBar(
-
                 modifier = Modifier
                     .height(55.dp)
                     .fillMaxSize(),
-
                 title = {
                     Text(
                         stringResource(id = R.string.search_screen_title),
@@ -52,8 +46,9 @@ fun SearchScreenTopAppBar(navController: NavController){
                 },
 
                 navigationIcon = {
-
-                    IconButton(onClick = { navController.popBackStack() }){
+                    IconButton(
+                        onClick = { navController.popBackStack() }
+                    ){
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Back to Main"
@@ -62,7 +57,6 @@ fun SearchScreenTopAppBar(navController: NavController){
                 },
                 backgroundColor = colorResource(id = R.color.light_blue)
             )
-
         },
         
         content = { SearchScreenContent(navController = navController) }
