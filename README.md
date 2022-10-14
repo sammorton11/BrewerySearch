@@ -1,7 +1,6 @@
 # BrewerySearch
 Search for Breweries - Android Kotlin
 
-- Clean Architecture
 - MVVM
 - Retrofit
 - Dagger Hilt
