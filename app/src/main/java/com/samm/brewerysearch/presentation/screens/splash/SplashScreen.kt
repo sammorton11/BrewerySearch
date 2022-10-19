@@ -68,7 +68,7 @@ fun SplashScreen(navController: NavController){
                 .fillMaxSize(),
             shape = CircleShape,
             color = colorResource(id = R.color.pink),
-            border = BorderStroke(width = 2.dp, color = colorResource(id = R.color.light_purple)),
+            border = BorderStroke(width = 2.dp, color = colorResource(id = R.color.light_blue)),
 
             ){
 
@@ -96,8 +96,4 @@ fun SplashScreen(navController: NavController){
             }
         }
     }
-
-
-
-
 }

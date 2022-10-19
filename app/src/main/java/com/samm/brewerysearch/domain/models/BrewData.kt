@@ -1,4 +1,4 @@
-package com.samm.brewerysearch.data.models
+package com.samm.brewerysearch.domain.models
 
 
 data class BrewData (

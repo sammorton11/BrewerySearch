@@ -1,4 +1,4 @@
-package com.samm.brewerysearch.presentation.screens.main.util
+package com.samm.brewerysearch.presentation.screens.util
 
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Text
@@ -9,6 +9,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
+import com.samm.brewerysearch.domain.models.BrewData
 
 @Composable
 fun LinkBuilder(

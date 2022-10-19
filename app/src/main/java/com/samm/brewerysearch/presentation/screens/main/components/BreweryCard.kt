@@ -1,38 +1,39 @@
 package com.samm.brewerysearch.presentation.screens.main.components
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.samm.brewerysearch.R
-import com.samm.brewerysearch.data.models.BrewData
+import com.samm.brewerysearch.domain.models.BrewData
 import com.samm.brewerysearch.presentation.screens.main.MainViewModel
+import com.samm.brewerysearch.presentation.screens.util.makeLink
 
+@SuppressLint("SuspiciousIndentation")
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun BreweryCard(
     bData: List<BrewData>,
     position: Int,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    color: Color
 ){
+
+    val context = LocalContext.current
     val cardNumber = position+1
     val cityApiData = bData[position].city
-    val phoneNumberApiData = bData[position].phone
     val countryApiData = bData[position].country
     val breweryTypeApiData = bData[position].brewery_type
     val countyApiData = bData[position].county_province
@@ -41,74 +42,65 @@ fun BreweryCard(
     val streetApiData = bData[position].street
     val apiLastUpdated = bData[position].updated_at
 
-    val context = LocalContext.current
     val lastUpdated = apiLastUpdated?.let { viewModel.dateTextConverter(it) }
+    val phoneNumberApiData = bData[position].phone
     val websiteUrlApiData = bData[position].website_url
     var expanded by remember { mutableStateOf(false) }
 
-    val clickableWebsiteText = buildAnnotatedString {
-        if (websiteUrlApiData != null) {
-            append(websiteUrlApiData)
-        }
-    }
-    val clickablePhoneNumberText = buildAnnotatedString {
-        if (phoneNumberApiData != null){
-            append(phoneNumberApiData)
-        }
-    }
+    val clickableWebsiteText = makeLink(websiteUrlApiData)
+    val clickablePhoneNumberText = makeLink(phoneNumberApiData)
 
-        //Brewery Card
-        Card(
+
+    Box(
+
+    ) {
+        Canvas(
             modifier = Modifier
-                .padding(start = 15.dp, end = 15.dp)
-                // .fillMaxSize()
-                .clickable(
-                    enabled = true,
-                    onClickLabel = "Expand to view details",
-                    onClick = { expanded = !expanded }
-                )
-                .semantics { contentDescription = "Brewery Card" },
-            backgroundColor = colorResource(id = R.color.light_blue),
-            contentColor = Color.Black,
-            border = BorderStroke(0.5.dp, colorResource(id = R.color.pink)),
-            elevation = 15.dp
-
+                .matchParentSize()
+                .padding(10.dp)
+                .clickable { expanded = !expanded }
         ) {
+            drawRoundRect(
+                color = color,
+                size = size,
+                cornerRadius = CornerRadius(10.dp.toPx())
+            )
+        }
 
-            Column(verticalArrangement = Arrangement.Center) {
+        Column(verticalArrangement = Arrangement.Center) {
+            //Number text for position of card
+            Text(
+                text = cardNumber.toString(),
+                modifier = Modifier.padding(18.dp),
+                color = Color.Black,
+                fontSize = 12.sp,
+            )
 
-                //Number text for position of card
-                Text(
-                    text = cardNumber.toString(),
-                    modifier = Modifier.padding(15.dp),
-                    fontSize = 10.sp,
-                )
+            BreweryTitle(
+                bData = bData,
+                position = position
+            )
 
-                BreweryTitle(
-                    bData = bData,
-                    position = position
-                )
+            CardDetails(
+                city = cityApiData,
+                state = stateApiData,
+                street = streetApiData,
+                country = countryApiData,
+                county = countyApiData,
+                postalCode = postalCodeApiData,
+                breweryType = breweryTypeApiData,
+                lastUpdated = lastUpdated,
+                expanded = expanded
+            )
 
-                CardDetails(
-                    city = cityApiData,
-                    state = stateApiData,
-                    street = streetApiData,
-                    country = countryApiData,
-                    county = countyApiData,
-                    postalCode = postalCodeApiData,
-                    breweryType = breweryTypeApiData,
-                    lastUpdated = lastUpdated,
-                    expanded = expanded
-                )
-
-                CardLinks(
-                    phoneNumberText = clickablePhoneNumberText,
-                    phoneNumberData = phoneNumberApiData,
-                    websiteText = clickableWebsiteText,
-                    websiteUrlData = websiteUrlApiData,
-                    viewModel = viewModel,
-                    context = context
-                )
-            }
+            CardLinks(
+                phoneNumberText = clickablePhoneNumberText,
+                phoneNumberData = phoneNumberApiData,
+                websiteText = clickableWebsiteText,
+                websiteUrlData = websiteUrlApiData,
+                viewModel = viewModel,
+                context = context
+            )
         }
     }
+}
