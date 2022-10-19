@@ -3,25 +3,25 @@ package com.samm.brewerysearch.presentation.screens.main
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.samm.brewerysearch.R
-import com.samm.brewerysearch.data.DataOrException
-import com.samm.brewerysearch.data.models.BrewData
-import com.samm.brewerysearch.presentation.screens.main.components.*
+import com.samm.brewerysearch.domain.models.BrewData
+import com.samm.brewerysearch.presentation.screens.main.components.BrewTopBar
+import com.samm.brewerysearch.presentation.screens.main.components.BreweryCard
+import com.samm.brewerysearch.presentation.screens.main.components.brewData
+import com.samm.brewerysearch.presentation.screens.main.util.CityComparator
+import com.samm.brewerysearch.presentation.screens.main.util.TitleComparator
+import com.samm.brewerysearch.presentation.ui.theme.*
 
-
-/*
-    TODO:
-*/
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @RequiresApi(Build.VERSION_CODES.O)
@@ -39,8 +39,7 @@ fun MainScreen(
             if (apiData.loading == true){
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(colorResource(id = R.color.grey_blue)),
+                        .fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -48,7 +47,10 @@ fun MainScreen(
                 }
 
             } else if (apiData.data != null){
-                MainContent(bData = apiData.data!!, viewModel = mainViewModel)
+                MainContent(
+                    bData = apiData.data!!,
+                    viewModel = mainViewModel
+                )
             }
         },
         topBar = { BrewTopBar(navController, search) }
@@ -61,22 +63,55 @@ fun MainScreen(
 fun MainContent(bData: List<BrewData>, viewModel: MainViewModel){
 
     val allBreweries = bData.size
+    var comparator by remember { mutableStateOf(TitleComparator) }
+    val colorList: List<Color> = listOf(RedOrange, RedPink, BabyBlue, Violet, LightGreen)
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colorResource(id = R.color.grey_blue))
-    ){
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            // Amount text label
-            Text(
-                text = "Result(s): ${bData.size}",
-                modifier = Modifier.padding(top = 15.dp, start = 15.dp, bottom = 5.dp)
-            )
+    Column {
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 15.dp)
+        ) {
+
+            Row(
+                modifier = Modifier.padding(15.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                // Amount text label
+                Text(
+                    text = "Result(s): ${bData.size}",
+                    modifier = Modifier
+                        .semantics {
+                            this.contentDescription = "Results"
+                        }
+                        .padding(end = 15.dp)
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End,
+                ) {
+
+                    Button(
+                        onClick = { comparator = TitleComparator }
+                    ){
+                        Text(text = "Title")
+                    }
+
+                    Button(
+                        onClick = { comparator = CityComparator },
+                        Modifier
+                            .padding(start = 15.dp),
+
+                        ){
+                        Text(text = "City")
+                    }
+                }
+            }
         }
 
         // List of Brewery cards
@@ -85,40 +120,20 @@ fun MainContent(bData: List<BrewData>, viewModel: MainViewModel){
                 .fillMaxSize()
                 .padding(5.dp)
         ){
+
+
             items(allBreweries){ index ->
-                Breweries(
-                    bData = bData, // Todo: create a way to select different sorting conditions
-                    position = index,
-                    viewModel = viewModel
+                BreweryCard (
+                    bData.sortedWith(comparator),
+                    index,
+                    viewModel,
+                    colorList[index % colorList.size]
                 )
+
             }
         }
     }
 }
 
-//Gets data from view model
-@Composable
-fun brewData(
-    mainViewModel: MainViewModel, search: String?
-): DataOrException<List<BrewData>, Boolean, Exception> {
 
-    return produceState<DataOrException<List<BrewData>, Boolean, Exception>>(
-        initialValue = DataOrException(loading = true)
-    ) {
-        value = mainViewModel.getData(search)
-    }.value
-}
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun Breweries(
-    bData: List<BrewData>,
-    position: Int,
-    viewModel: MainViewModel
-){
-    Column(
-        Modifier.padding(10.dp)
-    ){
-        BreweryCard(bData, position, viewModel)
-    }
-}

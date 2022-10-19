@@ -1,7 +1,6 @@
-package com.samm.brewerysearch.domain.di
+package com.samm.brewerysearch.di
 
 import com.samm.brewerysearch.data.network.BrewApi
-import com.samm.brewerysearch.domain.repository.BrewRepository
 import com.samm.brewerysearch.util.Constants
 import dagger.Module
 import dagger.Provides

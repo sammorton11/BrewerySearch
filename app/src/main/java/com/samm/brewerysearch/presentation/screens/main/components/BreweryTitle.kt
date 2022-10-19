@@ -7,14 +7,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.samm.brewerysearch.R
-import com.samm.brewerysearch.data.models.BrewData
+import com.samm.brewerysearch.domain.models.BrewData
 
 @Composable
 fun BreweryTitle(bData: List<BrewData>, position: Int){
@@ -39,10 +38,10 @@ fun BreweryTitle(bData: List<BrewData>, position: Int){
                 textAlign = TextAlign.Center,
                 softWrap = true,
                 style = TextStyle(
-                    color = colorResource(id = R.color.purple_500),
+                    color = colorResource(id = R.color.black),
                     fontStyle = FontStyle.Normal,
-                    fontSize = 17.sp,
-                    fontFamily = FontFamily.SansSerif,
+                    fontSize = 18.sp,
+//                    fontFamily = FontFamily.SansSerif,
                     letterSpacing = 2.sp,
                 )
 

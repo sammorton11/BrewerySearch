@@ -1,7 +1,6 @@
 package com.samm.brewerysearch.di
 
 import com.samm.brewerysearch.data.network.BrewApi
-import com.samm.brewerysearch.domain.di.AppModule
 import com.samm.brewerysearch.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -11,11 +10,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@Module
 @TestInstallIn(
     components = [SingletonComponent::class],
     replaces = [AppModule::class]
 )
+@Module
 object TestAppModule {
 
     @Singleton

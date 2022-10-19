@@ -7,18 +7,24 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import com.samm.brewerysearch.data.DataOrException
-import com.samm.brewerysearch.data.models.BrewData
-import com.samm.brewerysearch.domain.repository.BrewRepository
+import com.samm.brewerysearch.data.repository.BrewRepositoryImpl
+import com.samm.brewerysearch.domain.models.BrewData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val repository: BrewRepository): ViewModel(){
+class MainViewModel @Inject constructor(
+    private val repository: BrewRepositoryImpl
+    ): ViewModel(){
 
-    suspend fun getData(search: String?)
-            : DataOrException<List<BrewData>, Boolean, Exception> {
+//    private val _state = mutableStateOf(BreweryCardState())
+//    val state: State<BreweryCardState> = _state
+//    private var getDataJob: Job? = null
+
+
+    suspend fun getData(search: String?): DataOrException<List<BrewData>, Boolean, Exception> {
         return repository.getData(search)
     }
 
@@ -46,5 +52,4 @@ class MainViewModel @Inject constructor(private val repository: BrewRepository):
         )
         context.startActivity(urlIntent)
     }
-
 }

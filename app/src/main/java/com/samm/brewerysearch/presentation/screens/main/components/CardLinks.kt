@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import com.samm.brewerysearch.presentation.screens.main.MainViewModel
-import com.samm.brewerysearch.presentation.screens.main.util.LinkBuilder
+import com.samm.brewerysearch.presentation.screens.util.LinkBuilder
 
 
 @Composable
