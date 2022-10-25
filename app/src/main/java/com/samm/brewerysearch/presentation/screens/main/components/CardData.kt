@@ -16,6 +16,5 @@ fun brewData(
         initialValue = DataOrException(loading = true)
     ) {
         value = mainViewModel.getData(search)
-
     }.value
 }

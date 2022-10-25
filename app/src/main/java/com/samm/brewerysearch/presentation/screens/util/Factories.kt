@@ -5,10 +5,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
+import com.samm.brewerysearch.R
 import com.samm.brewerysearch.domain.models.BrewData
 
 @Composable
@@ -19,6 +21,7 @@ fun LinkBuilder(
     intentCall: (String?) -> Unit
 ){
     if (dataText != null){
+
         ClickableText(
             text = clickableText,
             modifier = modifier,
@@ -33,7 +36,7 @@ fun LinkBuilder(
     }
     else {
         Text(
-            text = "Sorry, Not Available",
+            text = stringResource(R.string.Not_Available),
             color = Color.Gray,
             fontSize = 10.sp
         )

@@ -3,4 +3,8 @@
     <string name="main_title">Breweries</string>
     <string name="search_screen_title">Search for a Brewery</string>
     <string name="search">Search</string>
+    <string name="TitleButtonText">Title</string>
+    <string name="CityButtonText">City</string>
+    <string name="ResultsTextLabel">Result(s):</string>
+    <string name="Not_Available">Sorry, Not Available</string>
 </resources>

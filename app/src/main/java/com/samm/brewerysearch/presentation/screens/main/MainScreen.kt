@@ -10,10 +10,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.samm.brewerysearch.R
 import com.samm.brewerysearch.domain.models.BrewData
 import com.samm.brewerysearch.presentation.screens.main.components.BrewTopBar
 import com.samm.brewerysearch.presentation.screens.main.components.BreweryCard
@@ -37,9 +40,9 @@ fun MainScreen(
         content = {
 
             if (apiData.loading == true){
+
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -47,13 +50,17 @@ fun MainScreen(
                 }
 
             } else if (apiData.data != null){
+
                 MainContent(
                     bData = apiData.data!!,
                     viewModel = mainViewModel
                 )
             }
         },
-        topBar = { BrewTopBar(navController, search) }
+
+        topBar = {
+            BrewTopBar(navController, search)
+        }
     )
 }
 
@@ -82,10 +89,15 @@ fun MainContent(bData: List<BrewData>, viewModel: MainViewModel){
 
                 // Amount text label
                 Text(
-                    text = "Result(s): ${bData.size}",
+                    text = buildString {
+                        append(stringResource(R.string.ResultsTextLabel))
+                        append(" ")
+                        append(bData.size)
+                   },
+                    fontSize = 22.sp,
                     modifier = Modifier
                         .semantics {
-                            this.contentDescription = "Results"
+                            contentDescription = "Results"
                         }
                         .padding(end = 15.dp)
                 )
@@ -97,18 +109,27 @@ fun MainContent(bData: List<BrewData>, viewModel: MainViewModel){
                 ) {
 
                     Button(
-                        onClick = { comparator = TitleComparator }
+                        onClick = {
+                            comparator = TitleComparator
+                        }
                     ){
-                        Text(text = "Title")
+                        Text(
+                            text = stringResource(R.string.TitleButtonText),
+                            modifier = Modifier.semantics {
+                                contentDescription = "Sort by Title"
+                            }
+                        )
                     }
 
                     Button(
-                        onClick = { comparator = CityComparator },
+                        onClick = {
+                            comparator = CityComparator
+                        },
                         Modifier
                             .padding(start = 15.dp),
 
                         ){
-                        Text(text = "City")
+                        Text(text = stringResource(R.string.CityButtonText))
                     }
                 }
             }
@@ -121,15 +142,13 @@ fun MainContent(bData: List<BrewData>, viewModel: MainViewModel){
                 .padding(5.dp)
         ){
 
-
             items(allBreweries){ index ->
                 BreweryCard (
                     bData.sortedWith(comparator),
                     index,
                     viewModel,
-                    colorList[index % colorList.size]
+                    colorList[index % colorList.size] // colors assigned from colorList in order
                 )
-
             }
         }
     }

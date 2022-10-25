@@ -19,10 +19,6 @@ class MainViewModel @Inject constructor(
     private val repository: BrewRepositoryImpl
     ): ViewModel(){
 
-//    private val _state = mutableStateOf(BreweryCardState())
-//    val state: State<BreweryCardState> = _state
-//    private var getDataJob: Job? = null
-
 
     suspend fun getData(search: String?): DataOrException<List<BrewData>, Boolean, Exception> {
         return repository.getData(search)
