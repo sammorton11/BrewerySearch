@@ -2,6 +2,7 @@ package com.samm.brewerysearch.presentation.screens.main.components
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.telephony.PhoneNumberUtils
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
@@ -9,7 +10,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -20,6 +25,8 @@ import androidx.compose.ui.unit.sp
 import com.samm.brewerysearch.domain.models.BrewData
 import com.samm.brewerysearch.presentation.screens.main.MainViewModel
 import com.samm.brewerysearch.presentation.screens.util.makeLink
+import java.util.*
+import kotlin.collections.ArrayList
 
 @SuppressLint("SuspiciousIndentation")
 @RequiresApi(Build.VERSION_CODES.O)
@@ -30,9 +37,11 @@ fun BreweryCard(
     viewModel: MainViewModel,
     color: Color
 ){
-
     val context = LocalContext.current
     val cardNumber = position+1
+    var expanded by remember { mutableStateOf(false) }
+
+    //API Data
     val cityApiData = bData[position].city
     val countryApiData = bData[position].country
     val breweryTypeApiData = bData[position].brewery_type
@@ -41,19 +50,25 @@ fun BreweryCard(
     val stateApiData = bData[position].state
     val streetApiData = bData[position].street
     val apiLastUpdated = bData[position].updated_at
-
     val lastUpdated = apiLastUpdated?.let { viewModel.dateTextConverter(it) }
     val phoneNumberApiData = bData[position].phone
     val websiteUrlApiData = bData[position].website_url
-    var expanded by remember { mutableStateOf(false) }
 
-    val clickableWebsiteText = makeLink(websiteUrlApiData)
-    val clickablePhoneNumberText = makeLink(phoneNumberApiData)
+    if (phoneNumberApiData.isNullOrEmpty()){
+
+    } else {
+
+    }
 
 
-    Box(
+    val clickableWebsiteText = makeLink(websiteUrlApiData) // link
+    val clickablePhoneNumberText = makeLink(phoneNumberApiData) // link
 
-    ) {
+
+
+    Box {
+
+        //Drawing the Card
         Canvas(
             modifier = Modifier
                 .matchParentSize()
@@ -67,7 +82,9 @@ fun BreweryCard(
             )
         }
 
+        // Card Information
         Column(verticalArrangement = Arrangement.Center) {
+
             //Number text for position of card
             Text(
                 text = cardNumber.toString(),
@@ -102,5 +119,24 @@ fun BreweryCard(
                 context = context
             )
         }
+    }
+}
+
+
+
+@Composable
+fun FavoriteButton(bData: List<BrewData>, position: Int, favoritesList: ArrayList<BrewData>) {
+
+    IconButton(
+        onClick = {
+            favoritesList.add(bData[position])
+
+            // ADD TO FAVORITES
+    }) {
+        Icon(
+            imageVector = Icons.Filled.FavoriteBorder,
+            contentDescription = "",
+            modifier = Modifier.padding(start = 15.dp)
+        )
     }
 }

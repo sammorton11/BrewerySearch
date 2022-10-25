@@ -1,4 +1,4 @@
-package com.samm.brewerysearch.presentation.screens.search
+package com.samm.brewerysearch.presentation.screens.search.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.samm.brewerysearch.R
-import com.samm.brewerysearch.presentation.screens.search.components.SearchScreenContent
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable

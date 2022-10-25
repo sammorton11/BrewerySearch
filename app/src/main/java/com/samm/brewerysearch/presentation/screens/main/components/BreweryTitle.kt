@@ -41,7 +41,6 @@ fun BreweryTitle(bData: List<BrewData>, position: Int){
                     color = colorResource(id = R.color.black),
                     fontStyle = FontStyle.Normal,
                     fontSize = 18.sp,
-//                    fontFamily = FontFamily.SansSerif,
                     letterSpacing = 2.sp,
                 )
 

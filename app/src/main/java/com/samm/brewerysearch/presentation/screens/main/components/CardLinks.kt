@@ -1,6 +1,11 @@
 package com.samm.brewerysearch.presentation.screens.main.components
 
 import android.content.Context
+import android.os.Build
+import android.telephony.PhoneNumberUtils.createTtsSpan
+import android.telephony.PhoneNumberUtils.formatNumber
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -11,6 +16,7 @@ import com.samm.brewerysearch.presentation.screens.main.MainViewModel
 import com.samm.brewerysearch.presentation.screens.util.LinkBuilder
 
 
+@RequiresApi(Build.VERSION_CODES.M)
 @Composable
 fun CardLinks(
     phoneNumberText: AnnotatedString,
